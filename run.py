@@ -94,6 +94,6 @@ plt.close('all')
 plt.figure(1)
 plt.semilogy(bin_edges[:-1], hist, '.')
 for ii in range(9):
-    plt.axvline(x=l/8*ii)
+    plt.axvline(x=sequence.get_length()/8*ii)
 
 plt.show()
