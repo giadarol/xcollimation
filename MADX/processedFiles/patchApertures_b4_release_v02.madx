@@ -1,0 +1,293 @@
+// =============================================================================
+// patch file for HL-LHC apertures by A.Mereghetti, 2015-10-16 (last version)
+// actual modifications:
+// . IP1/5: circles of radii 0.0235/0.018200/0.0217/0.040000 instead of 0.029;
+// . add 40mm/106mm aperture markers;
+// =============================================================================
+
+if (mylhcbeam>2){
+  bv_aux=-1;
+} else {
+  bv_aux=1;
+};
+! some local variable definition:
+REAL CONST len.BTVST = 0.5 ;
+REAL CONST len.MKD   = 1.7 ;
+REAL CONST len.apwl  = 0.25;
+REAL CONST len.bsrtm = 1.5 ;
+REAL CONST len.bws   = 1.0 ;
+REAL CONST len.bqsv  = 1.0 ;
+REAL CONST len.bctdc = 0.8 ;
+REAL CONST len.bctfr = 0.8 ;
+REAL CONST len.bqkv  = 2.0 ;
+REAL CONST len.bpmya = 0.5;
+REAL CONST len.bptx = 0.25;
+REAL CONST len.taxn = 3.332;
+REAL CONST len.dfxj = 3.658;
+REAL CONST len.mcbrd = 1.89;
+!
+LHCPIPE.D1_TAN: MARKER, APERTYPE=CIRCLE, APERTURE={0.106};
+LHCPIPE.REG:    MARKER, APERTYPE=CIRCLE, APERTURE={0.040};
+LHCPIPE.FIXPOS:    MARKER, APERTYPE=CIRCLE, APERTURE={0.040};    
+LHCPIPE.CORR:    MARKER, APERTYPE=CIRCLE, APERTURE={0.040};    
+MKDPIPE:        MARKER, APERTYPE=CIRCLE, APERTURE={0.0285};
+APWL.B6L4.B2, APERTURE={0.041400,0.041400,0.041400,0.041400};
+APWL.B5L4.B2, APERTURE={0.041400,0.041400,0.041400,0.041400};
+APWL.5L4.B2,  APERTURE={0.041400,0.041400,0.041400,0.041400};
+
+! --------------------------
+! A.Mereghetti, 2015-09-09
+! correct small inconsistencies found in MADX db wrt collimation version
+! only B2
+! MSIs:
+if (overwriteMSIape>0){
+   MSIB.C6L2.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIB.B6L2.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029};
+   MSIB.A6L2.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIA.B6L2.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIA.A6L2.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIA.A6R8.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIA.B6R8.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIB.A6R8.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIB.B6R8.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+   MSIB.C6R8.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.029,0.029,0.029,0.029}; 
+};
+! MQWs:
+if (overwriteMQWape>0){
+   MQWA.E5R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.D5R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.C5R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWB.5R3.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.B5R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.A5R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.E4R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.D4R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.C4R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWB.4R3.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.B4R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.A4R3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.A4L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255};
+   MQWA.B4L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255};
+   MQWB.4L3.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.C4L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.D4L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.E4L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.A5L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.B5L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWB.5L3.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.C5L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.D5L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.E5L3.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.E5R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.D5R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.C5R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWB.5R7.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.B5R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.A5R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.E4R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.D4R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.C4R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWB.4R7.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.B4R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.A4R7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.A4L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.B4L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWB.4L7.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.C4L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.D4L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.E4L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0145,0.0255,0.0145,0.0255}; 
+   MQWA.A5L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.B5L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWB.5L7.B2,		APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.C5L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.D5L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+   MQWA.E5L7.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0255,0.0145,0.0255,0.0145}; 
+};
+! MKD
+if (overwriteMKDape>0){
+   MKD.O5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.N5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.M5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.L5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.K5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.J5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.I5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.H5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.G5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.F5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.E5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.D5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.C5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.B5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+   MKD.A5R6.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+! ...and MKQA
+   MKQA.6L4.B2,	APERTYPE=RECTELLIPSE,	APERTURE={0.0285,0.0285,0.0285,0.0285}; 
+};
+
+ACSCA.D5L4.B2,    APERTYPE=RECTELLIPSE, APERTURE={ 0.040000,    0.040000,    0.040000,  0.040000 };
+ACSCA.C5L4.B2,    APERTYPE=RECTELLIPSE, APERTURE={ 0.040000,    0.040000,    0.040000,  0.040000 };
+ACSCA.B5L4.B2,    APERTYPE=RECTELLIPSE, APERTURE={ 0.040000,    0.040000,    0.040000,  0.040000 };
+ACSCA.A5L4.B2,    APERTYPE=RECTELLIPSE, APERTURE={ 0.040000,    0.040000,    0.040000,  0.040000 };
+
+! --------------------------
+! IPs
+! . circular apertures:
+RRR=0.023500;
+IP1,    APERTYPE=CIRCLE, APERTURE={ RRR };
+IP1.L1, APERTYPE=CIRCLE, APERTURE={ RRR };
+RRR=0.018200;
+IP2,    APERTYPE=CIRCLE, APERTURE={ RRR };
+RRR=0.021700;
+IP5,    APERTYPE=CIRCLE, APERTURE={ RRR };
+RRR=0.040000;
+IP8,    APERTYPE=CIRCLE, APERTURE={ RRR };
+
+! --------------------------
+! ad hoc corrections
+SEQEDIT, sequence=lhcb2;
+
+! --------------------------
+! IR1
+! --------------------------
+! TCLMC.6L1.B2
+Select, flag=seqedit, pattern="^TCLMC.6L1.B2";
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.02, from=selected;               ! corrected l.TCLMB to l.TCLMC, although the value is the same
+Install, element=LHCPIPE.REG, at= l.TCLMC/2+0.02, from=selected;
+Select, flag=seqedit, clear = true;
+
+! TCLMB.5L1.B2
+Select, flag=seqedit, pattern="^TCLMC.5L1.B2";                          ! changed name from TCLMB.5L1.B1 to TCLMC.5L1.B1
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.02, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMC/2+0.02, from=selected;
+Select, flag=seqedit, clear = true;
+Install, element=LHCPIPE.CORR,    at=+len.bpmya/2+0.01   , from=BPMYA.4L1.B2; ! Q4   - end    ! changed to relative position
+! TCLMB.4L1.B2
+Select, flag=seqedit, pattern="^TCLMB.4L1.B2";                           ! ok
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMB/2-0.02, from=selected;
+Select, flag=seqedit, clear = true;
+
+Install, element=LHCPIPE.D1_TAN, at=( 0.01+len.taxn*0.5)*bv_aux, from=TAXN.4L1; ! TAN  - start
+Install, element=LHCPIPE.D1_TAN, at=(-0.01-len.dfxj*0.5-1.5)*bv_aux, from=DFXJ.4L1; ! D1   - end
+! IR1
+Install, element=LHCPIPE.D1_TAN, at=( 0.01+len.dfxj*0.5+1.5)*bv_aux, from=DFXJ.4R1; ! D1   - end
+Install, element=LHCPIPE.D1_TAN, at=(-0.01-len.taxn*0.5)*bv_aux, from=TAXN.4R1; ! TAN  - start
+Install, element=LHCPIPE.CORR,    at= -0.01   , from=VACFGA.4BR1.B2; ! crab - end    ! changed to relative position TODO check VACFGA length
+
+! TCLMB.4R1.B2
+Select, flag=seqedit, pattern="^TCLMB.4R1.B2";                      ! ok
+Install, element=LHCPIPE.REG, at=-l.TCLMB/2-0.01, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMB/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+Install, element=LHCPIPE.CORR,    at= -len.bpmya/2-0.01, from=BPMYA.4R1.B2; ! Q4   - end   ! changed to relative pos due to BPM having moved   
+! TCLMB.5R1.B2
+Select, flag=seqedit, pattern="^TCLMC.5R1.B2";                       ! ok
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.01, from=selected;     ! changed name from TCLMB.5R1.B2 to TCLMC.5R1.B2 
+Install, element=LHCPIPE.REG, at= l.TCLMC/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+Install, element=LHCPIPE.FIXPOS,    at= 222.00*bv_aux   , from=IP1; ! Q6   - start         !ok
+
+! --------------------------
+! IR5
+! --------------------------
+
+! TCLMC.6L5.B2
+Select, flag=seqedit, pattern="^TCLMC.6L5.B2";                                         ! corrected l.TCLMB to l.TCLMC, value is the same however  
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.01, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMC/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+! TCLMB.5L5.B2
+Select, flag=seqedit, pattern="^TCLMC.5L5.B2";                                        ! name changed from TCLMB.5L5.B1 to TCLMC.5L5.B1
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.01, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMC/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+! TCLMB.4L5.B2
+Select, flag=seqedit, pattern="^TCLMB.4L5.B2";                                                   ! ok
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMB/2-0.02, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMB/2+0.02, from=selected;
+Select, flag=seqedit, clear = true;
+
+Install, element=LHCPIPE.CORR,    at= 0.2, from=VACFGA.4BL5.B2; ! crab - end                    ! changed to relative pos TODO check VACFGA length
+! IR5
+Install, element=LHCPIPE.CORR,    at= -0.2, from=VACFGA.4BR5.B2; ! crab - end    ! changed to relative pos TODO check VACFGA length
+
+! TCLMB.4R5.B2
+Select, flag=seqedit, pattern="^TCLMB.4R5.B2";
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMB/2-0.02, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMB/2+0.02, from=selected;
+Select, flag=seqedit, clear = true;
+
+! TCLMB.5R5.B2
+Select, flag=seqedit, pattern="^TCLMC.5R5.B2";                                             ! name changed from TCLMB.5R5.B1 to TCLMC.5R5.B1
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.02, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCLMC/2+0.02, from=selected;
+Select, flag=seqedit, clear = true;
+
+! TCLMC.6R5.B2
+Select, flag=seqedit, pattern="^TCLMC.6R5.B2";
+! use a 20cm step, to overcome artifacts from aperture fitting
+Install, element=LHCPIPE.REG, at=-l.TCLMC/2-0.02, from=selected;                           ! corrected TCLMB to TCLMC, although value is the same
+Select, flag=seqedit, clear = true;
+
+
+! --------------------------
+! IR2
+! --------------------------
+! X2ZDC.4L2
+Select, flag=seqedit, pattern="^X2ZDC.4L2";
+Install, element=LHCPIPE.REG, at=-l.X2ZDC002/2-0.01, from=selected;
+Install, element=LHCPIPE.REG, at= l.X2ZDC002/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+! IR2
+! X2ZDC.4R2
+Select, flag=seqedit, pattern="^X2ZDC.4R2";
+Install, element=LHCPIPE.REG, at=-l.X2ZDC002/2-0.01, from=selected;
+Install, element=LHCPIPE.REG, at= l.X2ZDC002/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+
+! --------------------------
+! IR8
+! --------------------------
+! IR8
+
+
+! --------------------------
+! IR4
+! --------------------------
+! IR4
+
+! --------------------------
+! IR6
+! --------------------------
+! IR6
+
+! --------------------------
+! IR3
+! --------------------------
+! IR3
+! TCAPA.6R3.B2
+Select, flag=seqedit, pattern="^TCAPA.6R3.B2";
+Install, element=LHCPIPE.REG, at=-l.TCAPA020/2-0.01, from=selected;
+Install, element=LHCPIPE.REG, at= l.TCAPA020/2+0.01, from=selected;
+Select, flag=seqedit, clear = true;
+
+! --------------------------
+! IR7
+! --------------------------
+
+! IR7
+
+
+
+ENDEDIT;
+
+! ------------------------------------------------------------------------------
+! c ya!
+! ------------------------------------------------------------------------------
+
+return;

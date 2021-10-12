@@ -1,0 +1,119 @@
+option, warn,info;
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/runIII lhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.5  slhc";
+option, -echo, -warn,info;
+call,file="slhc/toolkit/macro.madx";
+call,file="slhc/aperture/const_for_aperture.madx";
+!call,file="lhc/lhc.seq";
+call,file="lhc/LHC_LS2_2021-07-02.seq";
+
+betaStar=15; ! cm
+!betaStar=20;
+!betaStar=64;
+!betaStar=100;
+
+
+
+mylhcbeam = 1;
+exec,mk_beam(7000);
+call,file="slhc/hllhc_sequence.madx";   
+call,file="lhc/aperture/aperture.b1.madx";
+call,file="lhc/aperture/aperture.b2.madx";
+call,file="lhc/aperture/aper_tol.b1.madx";
+call,file="lhc/aperture/aper_tol.b2.madx";
+call,file="slhc/aperture/exp_pipe_model_after_LS3.madx";
+call,file="slhc/aperture/exp_pipe_install_after_LS3.madx";
+call,file="slhc/aperture/aperture_upgrade_IT.madx";
+call,file="slhc/aperture/aperture_upgrade_MS.madx";
+call,file="processedFiles/layoutDB.seq";
+call,file="processedFiles/patchApertures_b1_release_v02.madx";
+call,file="processedFiles/fromCollimation_define.madx";
+call,file="processedFiles/fromCollimation_install.madx";   
+seqedit,sequence=lhcb1;flatten;endedit;
+seqedit,sequence=lhcb2;flatten;endedit;
+call,file="processedFiles/correctMechSep2.madx";
+mbh_shift=0; ! must set this to zero when not using MBH otherwise aperture will be wrong, this shift is due to MBH being RBEND
+make_end_markers=1;   
+exec,myslice;
+
+if(betaStar==15){call,file="slhc/round/opt_round_150_1500_thin.madx";}
+elseif(betaStar==20){call,file="slhc/round/opt_round_200_1500_tcdq4_thin.madx";}
+elseif(betaStar==64){call,file="slhc/ramp/opt_ramp_640_1500_thin.madx";}
+elseif(betaStar==100){call,file="slhc/ramp/opt_ramp_1000_1500_thin.madx";}
+
+set,format="14.8f";
+select, flag=twiss, CLEAR; 
+select, flag=twiss,column=name,s,l,mux,betx,alfx,muy,bety,alfy,dx,dpx,dy,dpy,x,y,px,py,apertype;   
+use,sequence=lhcb1;twiss, table=twiss;write,table=twiss,file="out/LHC_b1_7000GeV_thinNoXing.twiss";  
+use,sequence=lhcb2;twiss, table=twiss;write,table=twiss,file="out/LHC_b2_7000GeV_thinNoXing.twiss";              
+! Knobs definitions
+
+if(betaStar==15){
+on_x1:=250; on_x2:=200; on_x5:=250; on_x8:=170; ! xing angles [murad]
+phi_IR1:=0; phi_IR2:=90; phi_IR5:=90; phi_IR8:=90; ! xing plane: 0,180 H, 90,270 V
+on_sep1:=0; on_sep2:=0; on_sep5:=0; on_sep8:=0; ! beam separations at xing point [mm] !note: half sep at 15 cm, IP2/8, TBC
+on_sol_atlas:=1; on_sol_alice:=1; on_sol_cms:=1; ! solenoid switches [0/1]
+on_alice:=7000/nrj; on_lhcb:=7000/nrj;           ! spectrometer dipoles in ALICE and LHCb [0,1; 1 is for 7 TeV beam]
+on_a1=0; on_a2=0; on_a5=0; on_a8=0;              ! add crossing angle in the non-nominal plane as well, keep at 0 [murad]
+on_o1=0; on_o2=0; on_o5=0; on_o8=0;             ! add offset - plane depends on phi_IRx
+on_crab1:=0; on_crab5:=0; ! crab cavity switches [0/1]
+on_disp=1;       ! switch for arc orbit correctors (dispersion), leave at 1 [0/1]
+}
+elseif(betaStar==20){
+on_x1:=250; on_x2:=200; on_x5:=250; on_x8:=170; ! xing angles [murad]
+phi_IR1:=0; phi_IR2:=90; phi_IR5:=90; phi_IR8:=90; ! xing plane: 0,180 H, 90,270 V
+on_sep1:=0; on_sep2:=0.11; on_sep5:=0; on_sep8:=0.022; ! beam separations at xing point [mm]
+on_sol_atlas:=1; on_sol_alice:=1; on_sol_cms:=1; ! solenoid switches [0/1]
+on_alice:=7000/nrj; on_lhcb:=7000/nrj;           ! spectrometer dipoles in ALICE and LHCb [0,1; 1 is for 7 TeV beam]
+on_a1=0; on_a2=0; on_a5=0; on_a8=0;              ! add crossing angle in the non-nominal plane as well, keep at 0 [murad]
+on_o1=0; on_o2=0; on_o5=0; on_o8=0;             ! add offset - plane depends on phi_IRx
+on_crab1:=0; on_crab5:=0; ! crab cavity switches [0/1]
+on_disp=1;       ! switch for arc orbit correctors (dispersion), leave at 1 [0/1]   
+}
+elseif(betaStar==64){
+on_x1:=250; on_x2:=200; on_x5:=250; on_x8:=170; ! xing angles [murad]
+phi_IR1:=0; phi_IR2:=90; phi_IR5:=90; phi_IR8:=90; ! xing plane: 0,180 H, 90,270 V
+on_sep1:=0; on_sep2:=0.13; on_sep5:=0; on_sep8:=0.032; ! beam separations at xing point [mm]
+on_sol_atlas:=1; on_sol_alice:=1; on_sol_cms:=1; ! solenoid switches [0/1]
+on_alice:=7000/nrj; on_lhcb:=7000/nrj;           ! spectrometer dipoles in ALICE and LHCb [0,1; 1 is for 7 TeV beam]
+on_a1=0; on_a2=0; on_a5=0; on_a8=0;              ! add crossing angle in the non-nominal plane as well, keep at 0 [murad]
+on_o1=0; on_o2=0; on_o5=0; on_o8=0;             ! add offset - plane depends on phi_IRx
+on_crab1:=0; on_crab5:=0; ! crab cavity switches [0/1]
+on_disp=1;       ! switch for arc orbit correctors (dispersion), leave at 1 [0/1]   
+}
+elseif(betaStar==100){
+on_x1:=250; on_x2:=200; on_x5:=250; on_x8:=170; ! xing angles [murad]
+phi_IR1:=0; phi_IR2:=90; phi_IR5:=90; phi_IR8:=90; ! xing plane: 0,180 H, 90,270 V
+on_sep1:=0; on_sep2:=0.13; on_sep5:=0; on_sep8:=0.032; ! beam separations at xing point [mm]
+on_sol_atlas:=1; on_sol_alice:=1; on_sol_cms:=1; ! solenoid switches [0/1]
+on_alice:=7000/nrj; on_lhcb:=7000/nrj;           ! spectrometer dipoles in ALICE and LHCb [0,1; 1 is for 7 TeV beam]
+on_a1=0; on_a2=0; on_a5=0; on_a8=0;              ! add crossing angle in the non-nominal plane as well, keep at 0 [murad]
+on_o1=0; on_o2=0; on_o5=0; on_o8=0;             ! add offset - plane depends on phi_IRx
+on_crab1:=0; on_crab5:=0; ! crab cavity switches [0/1]
+on_disp=1;       ! switch for arc orbit correctors (dispersion), leave at 1 [0/1]   
+}
+value, kq4.lr7;
+value, kq5.lr7;
+value, kqt4.l7;
+value, kqt4.r7;
+! Rematch post-knobs
+
+call, file="/afs/cern.ch/eng/lhc/optics/HLLHCV1.5/toolkit/rematch_chroma.madx";
+call, file="/afs/cern.ch/eng/lhc/optics/HLLHCV1.5/toolkit/rematch_tune.madx";    
+select, flag=twiss, CLEAR; 
+select, flag=twiss,column=name,keyword,s,l,mux,betx,alfx,muy,bety,alfy,dx,dpx,dy,dpy,x,y,px,py,apertype,mech_sep;   
+use,sequence=lhcb2;twiss, centre=true, table=twiss;write,table=twiss,file="out/LHC_b2_7000GeV_thinXing.twiss";     
+survey, sequence=lhcb2,file="out/SurveyWithCrossing_XP_lowb_b2.dat";   
+use,sequence=lhcb1;twiss, centre=true, table=twiss;write,table=twiss,file="out/LHC_b1_7000GeV_thinXing.twiss";  
+survey, sequence=lhcb1,file="out/SurveyWithCrossing_XP_lowb_b1.dat";   
+
+!sixtrack, aperture=true, long_names=true;
+
+!system, "mv fc.2 out/b1/fort.2";
+!system, "mv fc.3.aper out/b1/fort3.limi";
+!system, "mv fc.3.aux out/b1/fort.3.aux";
+!system, "mv fc.8 out/b1/fort.8";
+!system, "mv fc.34 out/b1/fort.34";
+
+system, "rm -r lhc slhc d2_aperture fc.3";  
+
