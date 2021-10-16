@@ -25,10 +25,22 @@ for ii in range(len(i_ele0_zero_diff)):
     if apertures_are_identical(ap0, ap1):
         mask_discontinuity[i_aper_zero_diff[ii]] = False
 
+i_ele0_discontinuities = np.array(llr.i_apertures)[:-1][mask_discontinuity]
+
+mask_disc_interpolated = mask_discontinuity & (np.roll(np.diff(s_apertures), 1)>1e-1)
+i_ele0_disc_interpolated= np.array(llr.i_apertures)[:-1][mask_disc_interpolated]
+
+
+for ii in i_ele0_disc_interpolated:
+    print(f'Discontinuity and downstram interp at: {tracker.line.element_names[ii]}')
+
+
 import matplotlib.pyplot as plt
 plt.close('all')
 plt.figure(1)
 plt.plot(s_apertures)
 plt.plot(np.where(mask_zero_diff)[0], s_apertures[:-1][mask_zero_diff], '.')
-plt.plot(np.where(mask_discontinuity)[0], s_apertures[:-1][mask_discontinuity], 'r.')
+plt.plot(np.where(mask_discontinuity)[0], s_apertures[:-1][mask_discontinuity], 'g.')
+plt.plot(np.where(mask_disc_interpolated)[0],
+                  s_apertures[:-1][mask_disc_interpolated], 'r.')
 plt.show()
