@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger('xtrack')
 logger.setLevel(logging.DEBUG)
 
-df = pd.read_csv('InputDist.csv')
+df = pd.read_csv('Input.csv')
 
 n_part = 20000
 n_turns = 10
